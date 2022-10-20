@@ -4,7 +4,7 @@
 
 There is a startup company called *WhizU Corp* that suddenly got the idea to develop the best possible SaaS product ever. <br>
 Currently there are two people at the start, Tom, the big visionaire, and Bob, the tech guy. Tom worked already at different tech places so he has a good understanding what current trends are and where one may look into.
-Bob previously has been developing uncountable amount of PHP based portals, shops and other great stuff but unfortunatelly he doesn't ee himself as a superhuman rockstar cloud native developer. But he always tries his best.
+Bob previously has been developing uncountable amount of PHP based portals, shops and other great stuff but unfortunatelly he doesn't see himself as a superhuman rockstar cloud native developer. But he always tries his best.
 
 As time is limited and it's important to make the first steps at least, the guys decide to boot on a cloud with the initial version. With the time they plan to learn and improve.
 
@@ -26,3 +26,9 @@ Tom and Bob decide to note everything possible as it may be very relevant. And i
 - Run the code in a pipeline. If we have some changes I would like to run it for the related environment. Something like PR based approach with approval would be a nice thing.
 - Creating the loadbalancer by using kubernetes service type `LoadBalancer` seems not to be the ideal solution for us. Or there is a way to preserve the IP if we recreate it.
 - Reduce time of adjusting terraform code. Some plugin or whatever for autoformat like in PHPStorm would be nice. Need to investigate.
+- I <u>limited the DB connection to my IP and the nodepool VM</u>. Will need to think how we proceed here in the future.
+- As we will get more and more apps up and runnig, we need to think about the deployment structure. Maybe something like [app of apps](https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-bootstrapping/#app-of-apps-pattern). <u>Maybe there is something better</u>.
+- Our domain is currently managed by these devops guys. But I need to include it into terraform so I can set the IP record. Need to discuss this with them.
+- Enable SSL on ingress with valid certificate. We can go with [let's encrypt](https://letsencrypt.org/de/) here.
+- Try to deploy app with [kustomize](https://kustomize.io/) instead of [helm](https://helm.sh/). Will need to look into some best practices. I would like to have some kind of config repo where we can set only really required configs and some kind of deployment definition repo where to which we can reference the revision. And what about if we have even more of these `values.yaml`s?
+- Secret management is a topic!
