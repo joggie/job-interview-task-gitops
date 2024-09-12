@@ -9,7 +9,8 @@ In this task we will look at the case of building a Kubernetes cluster on Exosca
 2. Use the existing terraform code to deploy the Kubernetes Cluster
 3. Read [the story](STORY.md)
 4. Read the HOWTOs.
-5. Deploy missing components if required.
+5. Read the NOTES
+6. Deploy missing components if required.
 
 
 ## Additional task
