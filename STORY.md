@@ -26,7 +26,6 @@ Tom and Bob decide to note everything possible as it may be very relevant. And i
 - Run the code in a pipeline. If we have some changes I would like to run it for the related environment. Something like PR based approach with approval would be a nice thing.
 - Creating the loadbalancer by using kubernetes service type `LoadBalancer` seems not to be the ideal solution for us. Or there is a way to preserve the IP if we recreate it.
 - Reduce time of adjusting terraform code. Some plugin or whatever for autoformat like in PHPStorm would be nice. Need to investigate.
-- I <u>limited the DB connection to my IP and the nodepool VM</u>. Will need to think how we proceed here in the future.
 - As we will get more and more apps up and runnig, we need to think about the deployment structure. Maybe something like [app of apps](https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-bootstrapping/#app-of-apps-pattern). <u>Maybe there is something better</u>.
 - Our domain is currently managed by these devops guys. But I need to include it into terraform so I can set the IP record. Need to discuss this with them.
 - Enable SSL on ingress with valid certificate. We can go with [let's encrypt](https://letsencrypt.org/de/) here.
