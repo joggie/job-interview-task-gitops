@@ -15,7 +15,8 @@ spec:
         replicaCount: 2
         backend: http://backend-podinfo:9898/echo
     repoURL: https://stefanprodan.github.io/podinfo
-    targetRevision: 6.2.0
+    targetRevision: 6.7.0
   syncPolicy:
+    automated: {}
     syncOptions:
     - CreateNamespace=true

@@ -1,3 +1,7 @@
+locals {
+  my_zone = "at-vie-1"
+}
+
 variable "key" {
   sensitive   = true
 }
@@ -6,12 +10,12 @@ variable "secret" {
 }
 
 terraform {
-  required_version = ">= 1.0.0"
+  required_version = ">= 1.9.0"
 
   required_providers {
     exoscale = {
       source  = "exoscale/exoscale"
-      version = "0.37.1"
+      version = "0.60.0"
     }
   }
 }
@@ -22,49 +26,78 @@ provider "exoscale" {
 }
 
 resource "exoscale_security_group" "sks" {
-  name = "dev-sks"
+  name = "interview-gitops-sks"
 }
 
-resource "exoscale_security_group_rules" "sks" {
-  security_group = exoscale_security_group.sks.name
+resource "exoscale_security_group_rule" "calico_vxlan" {
+  security_group_id = exoscale_security_group.sks.id
+  description       = "VXLAN (Calico)"
+  type              = "INGRESS"
+  protocol          = "UDP"
+  start_port        = 4789
+  end_port          = 4789
+  # (beetwen worker nodes only)
+  user_security_group_id = exoscale_security_group.sks.id
+}
 
-  ingress {
-    description              = "Calico traffic"
-    protocol                 = "UDP"
-    ports                    = ["4789"]
-    user_security_group_list = [exoscale_security_group.sks.name]
-  }
+resource "exoscale_security_group_rule" "kubelet" {
+  security_group_id = exoscale_security_group.sks.id
+  description       = "Kubelet"
+  type              = "INGRESS"
+  protocol          = "TCP"
+  start_port        = 10250
+  end_port          = 10250
+  # (beetwen worker nodes only)
+  user_security_group_id = exoscale_security_group.sks.id
+}
 
-  ingress {
-    description = "Nodes logs/exec"
-    protocol    = "TCP"
-    ports       = ["10250"]
-    cidr_list   = ["0.0.0.0/0", "::/0"]
-  }
+resource "exoscale_security_group_rule" "logs_exec" {
+  security_group_id = exoscale_security_group.sks.id
+  description       = "Kubelet"
+  type              = "INGRESS"
+  protocol          = "TCP"
+  start_port        = 10250
+  end_port          = 10250
+  cidr              = "0.0.0.0/0"
+}
 
-  ingress {
-    description = "NodePort services"
-    protocol    = "TCP"
-    cidr_list   = ["0.0.0.0/0", "::/0"]
-    ports       = ["30000-32767"]
-  }
+resource "exoscale_security_group_rule" "nodeport_tcp" {
+  security_group_id = exoscale_security_group.sks.id
+  description       = "Nodeport TCP services"
+  type              = "INGRESS"
+  protocol          = "TCP"
+  start_port        = 30000
+  end_port          = 32767
+  # (public)
+  cidr = "0.0.0.0/0"
+}
+
+resource "exoscale_security_group_rule" "nodeport_udp" {
+  security_group_id = exoscale_security_group.sks.id
+  description       = "Nodeport UDP services"
+  type              = "INGRESS"
+  protocol          = "UDP"
+  start_port        = 30000
+  end_port          = 32767
+  # (public)
+  cidr = "0.0.0.0/0"
 }
 
 resource "exoscale_sks_cluster" "cluster" {
-  zone          = "at-vie-1"
-  name          = "dev-sks"
-  service_level = "starter"
-  version       = "1.25.1"
   depends_on    = [exoscale_security_group.sks]
+  zone          = local.my_zone
+  name          = "interview-gitops-sks"
+  service_level = "starter"
   auto_upgrade  = false
+  cni           = "calico"
 }
 
 resource "exoscale_sks_nodepool" "nodepool" {
-  zone               = "at-vie-1"
+  zone               = local.my_zone
   cluster_id         = exoscale_sks_cluster.cluster.id
-  name               = "dev-sks-nodepool"
+  name               = "interview-gitops-sks-nodepool"
   instance_type      = "standard.medium"
-  instance_prefix    = "default-medium"
+  instance_prefix    = "interview-gitops-default-medium"
   size               = 1
   disk_size          = 50
   security_group_ids = [exoscale_security_group.sks.id]

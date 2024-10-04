@@ -16,7 +16,7 @@ spec:
         service:
           type: LoadBalancer
     repoURL: https://helm.traefik.io/traefik
-    targetRevision: 10.22.0
+    targetRevision: 32.0.0
   syncPolicy:
     automated: {}
     syncOptions:
