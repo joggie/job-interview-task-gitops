@@ -12,3 +12,4 @@ configs:
     policy.default: role:readonly
   params:
     server.insecure: true
+    application.namespaces: '*'
