@@ -9,5 +9,5 @@ configs:
   rbac:
     create: true
     policy.default: role:readonly
-server:
-  insecure: true
+  params:
+    server.insecure: true
