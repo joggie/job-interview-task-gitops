@@ -15,7 +15,7 @@ spec:
       targetRevision: 7.8.24
       chart: argo-cd
       helm:
-        releaseName: argo-cd
+        releaseName: argocd
     - repoURL: https://github.com/joggie/job-interview-task-gitops.git
       ref: values
       targetRevision: HEAD
