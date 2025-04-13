@@ -14,7 +14,7 @@ patches:
       path: /spec/sources/-
       value:
         path: argocd/clusters/interview-gitops-sks/applications/cert-manager/components
-        repoURL: https://github.com/joggie/cluster-configs.git
+        repoURL: https://github.com/joggie/job-interview-task-gitops.git
         targetRevision: HEAD
   target:
     group: argoproj.io
