@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cluster-config-interview-gitops-sks
+  namespace: argocd
+  labels:
+    cluster: interview-gitops-sks
+spec:
+  destination:
+    name: in-cluster
+  project: cluster-configs
+  source:
+    path: argocd/clusters/interview-gitops-sks/bootstrap
+    repoURL: https://github.com/joggie/job-interview-task-gitops.git
+    targetRevision: HEAD
+    directory:
+      recurse: false
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: true

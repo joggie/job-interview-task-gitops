@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+
+resources:
+- ../applications
+
+patches:
+  - target:
+      kind: Application
+    patch: |-
+      - op: replace
+        path: /spec/destination/name
+        value: 'https://kubernetes.default.svc'
+      - op: add
+        path: /metadata/labels/cluster
+        value: 'interview-gitops-sks'

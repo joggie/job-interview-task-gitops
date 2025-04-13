@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: infrastructure
+  namespace: argocd
+spec:
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  destinations:
+    - name: https://kubernetes.default.svc
+      namespace: cert-manager
+      server: '*'
+    - name: https://kubernetes.default.svc
+      namespace: longhorn-system
+      server: '*'
+    - name: https://kubernetes.default.svc
+      namespace: metallb-system
+      server: '*'
+    - name: https://kubernetes.default.svc
+      namespace: traefik
+      server: '*'
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  sourceRepos:
+    - 'https://github.com/joggie/job-interview-task-gitops.git' # cluster configs
+    - 'https://charts.longhorn.io' # longhorn
+    - 'https://charts.jetstack.io' # cert-manager
+    - 'https://metallb.github.io/metallb' # metallb
+    - 'https://traefik.github.io/charts' # traefik
+  sourceNamespaces:
+    - '*'

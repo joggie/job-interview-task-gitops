@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: traefik
+  namespace: argocd
+  labels:
+    cluster:
+spec:
+  destination:
+    namespace: traefik
+    name:
+  project: infrastructure
+  sources:
+    - repoURL: https://traefik.github.io/charts
+      targetRevision: 35.0.0
+      chart: traefik
+      helm:
+        releaseName: traefik
+    - repoURL: https://github.com/joggie/job-interview-task-gitops.git
+      ref: values
+      targetRevision: HEAD
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

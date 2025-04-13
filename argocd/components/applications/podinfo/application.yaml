@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: podinfo
+  namespace: argocd
+  labels:
+    cluster:
+spec:
+  destination:
+    namespace: app
+    name:
+  project: app
+  sources:
+    - repoURL: https://stefanprodan.github.io/podinfo
+      targetRevision: 6.8.0
+      chart: podinfo
+      helm:
+        releaseName: podinfo
+    - repoURL: https://github.com/joggie/job-interview-task-gitops.git
+      ref: values
+      targetRevision: HEAD
+  syncPolicy:
+#   automated: {}  
+    syncOptions:
+      - CreateNamespace=true

@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: argocd
+  namespace: argocd
+spec:
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  destinations:
+    - name: https://kubernetes.default.svc
+      namespace: argocd
+      server: '*'
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  sourceRepos:
+    - 'https://argoproj.github.io/argo-helm' # argocd
+    - 'https://github.com/joggie/job-interview-task-gitops.git' # cluster-config
+  sourceNamespaces:
+    - '*'

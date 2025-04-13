@@ -1,0 +1,45 @@
+type: LoadBalancer
+
+# Entry points for HTTP and HTTPS
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+  websecure:
+    address: ":443"
+
+# Disable dashboard
+ingressRoute:
+  dashboard:
+    enabled: false
+
+# Exposed ports via Service
+ports:
+  web:
+    exposedPort: 80
+  websecure:
+    exposedPort: 443
+    tls:
+      enabled: true
+
+# Enable TLS certs via cert-manager
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: joggie@joggie.net
+      storage: /data/acme.json
+      httpChallenge:
+        entryPoint: web
+
+# Use as default IngressClass
+ingressClass:
+  enabled: true
+  isDefaultClass: true
+
+# Deployment settings
+deployment:
+  replicas: 1

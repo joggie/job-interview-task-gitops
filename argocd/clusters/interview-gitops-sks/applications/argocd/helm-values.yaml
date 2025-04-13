@@ -1,0 +1,25 @@
+global:
+  domain: argocd.demo.nerdhome.at
+dex: # saml
+  enabled: false
+configs:
+  cm:
+    create: true
+  rbac:
+    create: true
+    policy.default: role:readonly
+    policy.csv: |
+      g, joggie, role:admin
+server:
+#  ingress:
+#    annotations:
+#      cert-manager.io/cluster-issuer: letsencrypt-prod
+#      kubernetes.io/tls-acme: 'true'
+#      nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+#      nginx.ingress.kubernetes.io/ssl-passthrough: 'true'
+#    enabled: true
+#    https: true
+#    ingressClassName: nginx
+#    tls: true
+  config:
+    accounts.joggie: apiKey, login
