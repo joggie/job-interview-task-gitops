@@ -1,3 +1,4 @@
+---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
@@ -5,25 +6,25 @@ resources:
   - ../../../../components/applications/podinfo
 
 patches:
-- patch: |-
-    - op: replace
-      path: /metadata/name
-      value: frontend
-    - op: replace
-      path: /spec/sources/0/helm/releaseName
-      value: podinfo-frontend
-    - op: add
-      path: /spec/sources/0/helm/valueFiles
-      value: 
-        - $values/argocd/clusters/interview-gitops-sks/applications/frontend/helm-values.yaml
-    - op: add
-      path: /spec/sources/-
-      value:
-        path: argocd/clusters/interview-gitops-sks/applications/frontend/components
-        repoURL: https://github.com/joggie/job-interview-task-gitops.git
-        targetRevision: HEAD
-  target:
-    group: argoproj.io
-    kind: Application
-    name: podinfo
-    version: v1alpha1
+  - patch: |-
+      - op: replace
+        path: /metadata/name
+        value: frontend
+      - op: replace
+        path: /spec/sources/0/helm/releaseName
+        value: podinfo-frontend
+      - op: add
+        path: /spec/sources/0/helm/valueFiles
+        value:
+          - $values/argocd/clusters/interview-gitops-sks/applications/frontend/helm-values.yaml
+      - op: add
+        path: /spec/sources/-
+        value:
+          path: argocd/clusters/interview-gitops-sks/applications/frontend/components
+          repoURL: https://github.com/joggie/job-interview-task-gitops.git
+          targetRevision: HEAD
+    target:
+      group: argoproj.io
+      kind: Application
+      name: podinfo
+      version: v1alpha1

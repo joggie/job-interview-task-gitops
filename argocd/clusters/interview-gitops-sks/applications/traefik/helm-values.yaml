@@ -1,3 +1,4 @@
+---
 type: LoadBalancer
 
 # Entry points for HTTP and HTTPS

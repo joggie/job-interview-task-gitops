@@ -1,6 +1,7 @@
+---
 global:
   domain: argocd.demo.nerdhome.at
-dex: # saml
+dex:   # saml
   enabled: false
 configs:
   cm:

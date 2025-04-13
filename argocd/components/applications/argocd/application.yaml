@@ -1,3 +1,4 @@
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -20,6 +21,6 @@ spec:
       ref: values
       targetRevision: HEAD
   syncPolicy:
-#   automated: {}  
+    # automated: {}
     syncOptions:
       - CreateNamespace=true

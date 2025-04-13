@@ -1,3 +1,4 @@
+---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
@@ -5,19 +6,19 @@ resources:
   - ../../../../components/applications/cert-manager
 
 patches:
-- patch: |-
-    - op: add
-      path: /spec/sources/0/helm/valueFiles
-      value: 
-        - $values/argocd/clusters/interview-gitops-sks/applications/cert-manager/helm-values.yaml
-    - op: add
-      path: /spec/sources/-
-      value:
-        path: argocd/clusters/interview-gitops-sks/applications/cert-manager/components
-        repoURL: https://github.com/joggie/job-interview-task-gitops.git
-        targetRevision: HEAD
-  target:
-    group: argoproj.io
-    kind: Application
-    name: cert-manager
-    version: v1alpha1
+  - patch: |-
+      - op: add
+        path: /spec/sources/0/helm/valueFiles
+        value:
+          - $values/argocd/clusters/interview-gitops-sks/applications/cert-manager/helm-values.yaml
+      - op: add
+        path: /spec/sources/-
+        value:
+          path: argocd/clusters/interview-gitops-sks/applications/cert-manager/components
+          repoURL: https://github.com/joggie/job-interview-task-gitops.git
+          targetRevision: HEAD
+    target:
+      group: argoproj.io
+      kind: Application
+      name: cert-manager
+      version: v1alpha1
