@@ -5,6 +5,7 @@ dex: # saml
 configs:
   cm:
     create: true
+    url: https://argocd.demo.nerdhome.at
   rbac:
     create: true
     policy.default: role:readonly
