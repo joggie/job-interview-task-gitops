@@ -9,11 +9,4 @@ configs:
     create: true
     policy.default: role:readonly
 server:
-  ingress:
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-prod
-      traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    enabled: true
-    https: true
-    ingressClassName: traefik
-    tls: true
+  insecure: true

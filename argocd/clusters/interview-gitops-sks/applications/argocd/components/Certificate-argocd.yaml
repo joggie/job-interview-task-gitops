@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: argocd.demo.nerdhome.at
+spec:
+  commonName: argocd.demo.nerdhome.at
+  secretName: argocd-demo-nerdhome-at-tls
+  dnsNames:
+    - argocd.demo.nerdhome.at
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-prod
