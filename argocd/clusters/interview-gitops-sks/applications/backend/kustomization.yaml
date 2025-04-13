@@ -9,6 +9,9 @@ patches:
     - op: replace
       path: /metadata/name
       value: backend
+    - op: replace
+      path: /spec/sources/0/helm/releaseName
+      value: podinfo-backend
     - op: add
       path: /spec/sources/0/helm/valueFiles
       value: 
