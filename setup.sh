@@ -27,3 +27,5 @@ for i in {1..30}; do
   echo "Waiting for secret... retry $i"
   sleep 5
 done
+
+kubectl apply -f authsecret.yaml

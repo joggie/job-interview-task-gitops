@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: frontend.demo.nerdhome.at
+spec:
+  commonName: frontend.demo.nerdhome.at
+  secretName: frontend-demo-nerdhome-at-tls
+  dnsNames:
+    - frontend.demo.nerdhome.at
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-prod
