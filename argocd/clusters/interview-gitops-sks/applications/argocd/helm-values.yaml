@@ -8,18 +8,12 @@ configs:
   rbac:
     create: true
     policy.default: role:readonly
-    policy.csv: |
-      g, joggie, role:admin
 server:
   ingress:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
-      kubernetes.io/tls-acme: 'true'
-      nginx.ingress.kubernetes.io/backend-protocol: HTTPS
-      nginx.ingress.kubernetes.io/ssl-passthrough: 'true'
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
     enabled: true
     https: true
     ingressClassName: traefik
     tls: true
-  config:
-    accounts.joggie: apiKey, login
