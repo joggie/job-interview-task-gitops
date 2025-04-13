@@ -9,6 +9,9 @@ spec:
       kind: '*'
   destinations:
     - name: in-cluster
+      namespace: kube-system
+      server: '*'
+    - name: in-cluster
       namespace: cert-manager
       server: '*'
     - name: in-cluster
