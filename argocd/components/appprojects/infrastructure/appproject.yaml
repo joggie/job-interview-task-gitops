@@ -8,16 +8,16 @@ spec:
     - group: '*'
       kind: '*'
   destinations:
-    - name: https://kubernetes.default.svc
+    - name: in-cluster
       namespace: cert-manager
       server: '*'
-    - name: https://kubernetes.default.svc
+    - name: in-cluster
       namespace: longhorn-system
       server: '*'
-    - name: https://kubernetes.default.svc
+    - name: in-cluster
       namespace: metallb-system
       server: '*'
-    - name: https://kubernetes.default.svc
+    - name: in-cluster
       namespace: traefik
       server: '*'
   namespaceResourceWhitelist:

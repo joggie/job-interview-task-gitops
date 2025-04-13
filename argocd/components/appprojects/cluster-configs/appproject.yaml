@@ -8,8 +8,11 @@ spec:
     - group: '*'
       kind: '*'
   destinations:
-    - name: https://kubernetes.default.svc
+    - name: in-cluster
       namespace: ''
+      server: '*'
+    - name: in-cluster
+      namespace: 'argocd'
       server: '*'
   namespaceResourceWhitelist:
     - group: '*'
