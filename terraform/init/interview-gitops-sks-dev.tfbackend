@@ -1,0 +1,6 @@
+address = "https://gitlab/api/v4/projects/$PROJECT_ID/terraform/state/terraform/interview-gitops-sks-nodepool-dev-tf_state"
+lock_address = "https://gitlab/api/v4/projects/$PROJECT_ID/terraform/state/terraform/interview-gitops-sks-nodepool-dev-tf_state/lock"
+unlock_address = "https://gitlab/api/v4/projects/$PROJECT_ID/terraform/state/terraform/interview-gitops-sks-nodepool-dev-tf_state/lock"
+lock_method = "POST"
+unlock_method = "DELETE"
+retry_wait_min = 5

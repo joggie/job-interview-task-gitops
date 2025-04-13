@@ -1,30 +1,3 @@
-locals {
-  my_zone = "at-vie-1"
-}
-
-variable "key" {
-  sensitive   = true
-}
-variable "secret" {
-  sensitive   = true
-}
-
-terraform {
-  required_version = ">= 1.9.0"
-
-  required_providers {
-    exoscale = {
-      source  = "exoscale/exoscale"
-      version = "0.64.0"
-    }
-  }
-}
-
-provider "exoscale" {
-  key     = "${var.key}"
-  secret  = "${var.secret}"
-}
-
 resource "exoscale_security_group" "sks" {
   name = "interview-gitops-sks"
 }
@@ -51,15 +24,15 @@ resource "exoscale_security_group_rule" "kubelet" {
   user_security_group_id = exoscale_security_group.sks.id
 }
 
-resource "exoscale_security_group_rule" "logs_exec" {
-  security_group_id = exoscale_security_group.sks.id
-  description       = "Kubelet"
-  type              = "INGRESS"
-  protocol          = "TCP"
-  start_port        = 10250
-  end_port          = 10250
-  cidr              = "0.0.0.0/0"
-}
+#resource "exoscale_security_group_rule" "logs_exec" {
+#  security_group_id = exoscale_security_group.sks.id
+#  description       = "Kubelet"
+#  type              = "INGRESS"
+#  protocol          = "TCP"
+#  start_port        = 10250
+#  end_port          = 10250
+#  cidr              = "0.0.0.0/0"
+#}
 
 resource "exoscale_security_group_rule" "nodeport_tcp" {
   security_group_id = exoscale_security_group.sks.id
@@ -85,20 +58,37 @@ resource "exoscale_security_group_rule" "nodeport_udp" {
 
 resource "exoscale_sks_cluster" "cluster" {
   depends_on    = [exoscale_security_group.sks]
-  zone          = local.my_zone
-  name          = "interview-gitops-sks"
-  service_level = "starter"
-  auto_upgrade  = false
-  cni           = "calico"
+  zone          = var.zone
+  name          = var.cluster_name
+  service_level = var.cluster_service_level
+  auto_upgrade  = var.cluster_auto_upgrade
+  cni           = var.cluster_cni
 }
 
 resource "exoscale_sks_nodepool" "nodepool" {
-  zone               = local.my_zone
+  zone               = var.zone
   cluster_id         = exoscale_sks_cluster.cluster.id
-  name               = "interview-gitops-sks-nodepool"
-  instance_type      = "standard.medium"
-  instance_prefix    = "interview-gitops-default-medium"
-  size               = 1
-  disk_size          = 50
+  name               = var.nodepool_name
+  instance_type      = var.nodepool_instance_type
+  instance_prefix    = var.nodepool_instance_prefix
+  size               = var.nodepool_size
+  disk_size          = var.nodepool_disk_size
   security_group_ids = [exoscale_security_group.sks.id]
+}
+
+resource "exoscale_sks_kubeconfig" "sks_kubeconfig" {
+  zone       = var.zone
+  cluster_id = exoscale_sks_cluster.cluster.id
+
+  user   = "admin"
+  groups = ["system:masters"]
+
+  ttl_seconds           = 3600
+  early_renewal_seconds = 300
+}
+
+resource "local_sensitive_file" "sks_kubeconfig_file" {
+  filename        = "${pathexpand("~/.kube/env")}/${var.cluster_name}.kubeconfig"
+  content         = exoscale_sks_kubeconfig.sks_kubeconfig.kubeconfig
+  file_permission = "0600"
 }
