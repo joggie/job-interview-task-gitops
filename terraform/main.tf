@@ -83,7 +83,7 @@ resource "exoscale_sks_kubeconfig" "sks_kubeconfig" {
   user   = "admin"
   groups = ["system:masters"]
 
-  ttl_seconds           = 3600
+  ttl_seconds           = 36000
   early_renewal_seconds = 300
 }
 
